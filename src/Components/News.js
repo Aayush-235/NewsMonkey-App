@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import NewsItem from './NewsItem'
+// import './News.css'
 
 export class News extends Component {
   articles = []
