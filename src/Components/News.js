@@ -16,7 +16,7 @@ export class News extends Component {
   static propTypes = {
     country: PropTypes.string,
     pageSize: PropTypes.number,
-    category : PropTypes.string
+    category: PropTypes.string
   }
 
   articles = []
@@ -33,10 +33,10 @@ export class News extends Component {
   async componentDidMount() {
 
     // console.log("After the componenet render into the dom then this method will run")
-    
+
     let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=3912a800ccdb4e3f9adae8fc85f68936&page=1&pageSize=${this.props.pageSize}`
     // console.log('URL IS : ' + url) for checking api call is working or limit cross
-    
+
     this.setState({
       loading: true
     })
@@ -96,28 +96,31 @@ export class News extends Component {
     // console.log("Second this component render(run) in DOM (Screen)")
     return (
       <>
-        <div className="container my-3 mx-3">
-          <h1 className=' text-center my-3' style={{margin : '30px 0px'}}>NewsMonkey - Top Headlines</h1>
-          {this.state.loading && <Spinner />}
+        <div className='container'>
+          <div className="container my-3 mx-3">
+            <h1 className=' text-center my-3' style={{ margin: '30px 0px' }}>NewsMonkey - Top Headlines</h1>
+            {this.state.loading && <Spinner />}
 
-          <div className="row">
-            {
-              !this.state.loading && this.state.articles && this.state.articles.map((element) => {
-                return <div className="col-md-4" key={element.url}>
-                  <NewsItem title={element.title ? element.title : ""} description={element.description ? element.description : ""} imageURL={element.urlToImage} newsURL={element.url} />
-                </div>
-              })
-            }
-            <div className="container d-flex justify-content-between">
-              <button type="button" disabled={this.state.page <= 1} className="btn btn-dark my-3 mx-3" onClick={this.handlePreviousClick}>&larr; Previous</button>
-              <button type="button" disabled={this.state.page + 1 > Math.ceil(this.state.totalResults / this.props.pageSize)} className="btn btn-dark my-3 mx-3" onClick={this.handleNextClick}>Next &rarr;</button>
+            <div className="row">
+              {
+                !this.state.loading && this.state.articles && this.state.articles.map((element) => {
+                  return <div className="col-md-4" key={element.url}>
+                    <NewsItem title={element.title ? element.title : ""} description={element.description ? element.description : ""} imageURL={element.urlToImage} newsURL={element.url} author={element.author} date={element.publishedAt} Source={element.source.name}/>
+                  </div>
+                })
+              }
+              <div className="container d-flex justify-content-between">
+                <button type="button" disabled={this.state.page <= 1} className="btn btn-dark my-3 mx-3" onClick={this.handlePreviousClick}>&larr; Previous</button>
+                <button type="button" disabled={this.state.page + 1 > Math.ceil(this.state.totalResults / this.props.pageSize)} className="btn btn-dark my-3 mx-3" onClick={this.handleNextClick}>Next &rarr;</button>
+              </div>
+
             </div>
 
           </div>
-
         </div>
+
       </>
-    )
+        )
   }
 
   // This creates a column that takes 4 out of 12 columns on md (medium, ≥768px) screens and up.
@@ -126,5 +129,5 @@ export class News extends Component {
   //  On smaller screens, they stack vertically unless you add col-sm-* or col-12.
 }
 
-export default News
+        export default News
 
