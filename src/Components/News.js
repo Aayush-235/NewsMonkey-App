@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import NewsItem from './NewsItem'
+import Spinner from './Spinner';
 // import './News.css'
 
 export class News extends Component {
@@ -17,43 +18,55 @@ export class News extends Component {
   async componentDidMount() {
     // console.log("After the componenet render into the dom then this method will run")
     let url = `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=05fd7748f49b470586c98325578ce0f6&page=1&pageSize=${this.props.pageSize}`;
+    this.setState({
+      loading : true
+    })
     let data = await fetch(url);
     let parsedData = await data.json();
     console.log(parsedData)
     this.setState({
       totalResults: parsedData.totalResults,
       articles: parsedData.articles,
+       loading : false
     })
 
     console.log(parsedData.totalResults)
 
   }
   handlePreviousClick = async () => {
-    console.log("Previous clicked");
+    // console.log("Previous clicked");
     let url = `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=05fd7748f49b470586c98325578ce0f6&page=${this.state.page - 1}&pageSize=${this.props.pageSize}`;
+    this.setState({
+      loading: true
+    })
     let data = await fetch(url);
     let parsedData = await data.json();
     console.log(parsedData)
     this.setState({
       page: this.state.page - 1,
       articles: parsedData.articles,
+      loading: false
     })
 
   }
 
   handleNextClick = async () => {
-    console.log("Next clicked")
+    // console.log("Next clicked")
     if (this.state.page + 1 > Math.ceil(this.state.totalResults / this.props.pageSize)) {
       return;
     }
     else {
       let url = `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=05fd7748f49b470586c98325578ce0f6&page=${this.state.page + 1}&pageSize=${this.props.pageSize}`;
+      this.setState({
+        loading: true
+      })
       let data = await fetch(url);
       let parsedData = await data.json();
       console.log(parsedData)
       this.setState({
         page: this.state.page + 1,
         articles: parsedData.articles,
+        loading: false
       })
     }
 
@@ -65,9 +78,11 @@ export class News extends Component {
       <>
         <div className="container my-3 mx-3">
           <h1 className=' text-center my-3'>NewsMonkey - Top Headlines</h1>
+          {this.state.loading && <Spinner />}
+
           <div className="row">
             {
-              this.state.articles && this.state.articles.map((element) => {
+              !this.state.loading && this.state.articles && this.state.articles.map((element) => {
                 return <div className="col-md-4" key={element.url}>
                   <NewsItem title={element.title ? element.title : ""} description={element.description ? element.description : ""} imageURL={element.urlToImage} newsURL={element.url} />
                 </div>
@@ -75,7 +90,7 @@ export class News extends Component {
             }
             <div className="container d-flex justify-content-between">
               <button type="button" disabled={this.state.page <= 1} className="btn btn-dark my-3 mx-3" onClick={this.handlePreviousClick}>&larr; Previous</button>
-              <button type="button" disabled={this.state.page + 1 > Math.ceil(this.state.totalResults/this.props.pageSize)} className="btn btn-dark my-3 mx-3" onClick={this.handleNextClick}>Next &rarr;</button>
+              <button type="button" disabled={this.state.page + 1 > Math.ceil(this.state.totalResults / this.props.pageSize)} className="btn btn-dark my-3 mx-3" onClick={this.handleNextClick}>Next &rarr;</button>
             </div>
 
           </div>
