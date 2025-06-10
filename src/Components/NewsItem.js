@@ -7,10 +7,10 @@ export class NewsItem extends Component {
         return (
             <div className=' container my-2'>
                 <div className="card" style={{ width: "18rem" }}>
-                    <img src={imageURL} className="card-img-top" alt="..." />
+                    <img src={imageURL?imageURL:"https://c8.alamy.com/comp/2CNJ7M5/404-error-2CNJ7M5.jpg"} className="card-img-top" alt="..." />
                     <div className="card-body">
-                        <h5 className="card-title">{title}...</h5>
-                        <p className="card-text">{description}...</p>
+                        <h5 className="card-title">{title}</h5>
+                        <p className="card-text">{description}</p>
                         <a href={newsURL} target='_blank'className="btn btn-sm btn-primary">Read More</a>
                     </div>
                 </div>
