@@ -16,7 +16,7 @@ export class News extends Component {
 
   async componentDidMount() {
     // console.log("After the componenet render into the dom then this method will run")
-    let url = `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=05fd7748f49b470586c98325578ce0f6&page=1&pageSize=20`;
+    let url = `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=05fd7748f49b470586c98325578ce0f6&page=1&pageSize=${this.props.pageSize}`;
     let data = await fetch(url);
     let parsedData = await data.json();
     console.log(parsedData)
@@ -30,7 +30,7 @@ export class News extends Component {
   }
   handlePreviousClick = async () => {
     console.log("Previous clicked");
-    let url = `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=05fd7748f49b470586c98325578ce0f6&page=${this.state.page - 1}&pageSize=20`;
+    let url = `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=05fd7748f49b470586c98325578ce0f6&page=${this.state.page - 1}&pageSize=${this.props.pageSize}`;
     let data = await fetch(url);
     let parsedData = await data.json();
     console.log(parsedData)
@@ -43,11 +43,11 @@ export class News extends Component {
 
   handleNextClick = async () => {
     console.log("Next clicked")
-    if (this.state.page + 1 > Math.ceil(this.state.totalResults / 20)) {
+    if (this.state.page + 1 > Math.ceil(this.state.totalResults / this.props.pageSize)) {
       return;
     }
     else {
-      let url = `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=05fd7748f49b470586c98325578ce0f6&page=${this.state.page + 1}&pageSize=20`;
+      let url = `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=05fd7748f49b470586c98325578ce0f6&page=${this.state.page + 1}&pageSize=${this.props.pageSize}`;
       let data = await fetch(url);
       let parsedData = await data.json();
       console.log(parsedData)
@@ -64,7 +64,7 @@ export class News extends Component {
     return (
       <>
         <div className="container my-3 mx-3">
-          <h1 className='my-3'>NewsMonkey - Top Headlines</h1>
+          <h1 className=' text-center my-3'>NewsMonkey - Top Headlines</h1>
           <div className="row">
             {
               this.state.articles && this.state.articles.map((element) => {
@@ -75,7 +75,7 @@ export class News extends Component {
             }
             <div className="container d-flex justify-content-between">
               <button type="button" disabled={this.state.page <= 1} className="btn btn-dark my-3 mx-3" onClick={this.handlePreviousClick}>&larr; Previous</button>
-              <button type="button" disabled={this.state.page + 1 > Math.ceil(this.state.totalResults/20)} className="btn btn-dark my-3 mx-3" onClick={this.handleNextClick}>Next &rarr;</button>
+              <button type="button" disabled={this.state.page + 1 > Math.ceil(this.state.totalResults/this.props.pageSize)} className="btn btn-dark my-3 mx-3" onClick={this.handleNextClick}>Next &rarr;</button>
             </div>
 
           </div>
