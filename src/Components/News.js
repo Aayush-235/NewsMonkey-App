@@ -19,15 +19,27 @@ export class News extends Component {
     category: PropTypes.string
   }
 
-  articles = []
-  constructor() {
-    super();
+  // articles = []
+
+
+  capitalize = (word) => {
+    let lower;
+    lower = word.toLowerCase();
+    lower = lower.charAt(0).toUpperCase() + lower.slice(1);
+
+    return lower
+  }
+
+  constructor(props) {
+    super(props);
     // console.log("First constrctor run")
     this.state = {
       articles: this.articles,
       loading: false,
-      page: 1
+      page: 1,
+      totalResults: 0
     }
+    document.title = `${this.capitalize(this.props.category)} - NewsMonkey`
   }
 
   async updateNews() {
@@ -81,18 +93,22 @@ export class News extends Component {
     // this.setState({
     //   page: this.state.page - 1,
     //   articles: parsedData.articles,
-    //   loading: false
+    //   loading: false 
     // })
     this.setState({
-      page : this.state.page - 1
-    })
-    this.updateNews()
+      page: this.state.page - 1
+    }, () => {
+      this.updateNews();
+    });
+
+
+
   }
 
   handleNextClick = async () => {
     // console.log("Next clicked")
     // if (this.state.page + 1 > Math.ceil(this.state.totalResults / this.props.pageSize)) return
-    
+
     // else {
     //   let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=3912a800ccdb4e3f9adae8fc85f68936&page=${this.state.page + 1}&pageSize=${this.props.pageSize}`
 
@@ -108,10 +124,12 @@ export class News extends Component {
     //     loading: false
     //   })
     // }
-     this.setState({
-      page : this.state.page + 1
-    })
-    this.updateNews()
+    this.setState({
+      page: this.state.page + 1
+    }, () => {
+      this.updateNews();
+    });
+
   }
 
   render() {
@@ -120,7 +138,7 @@ export class News extends Component {
       <>
         <div className='container'>
           <div className="container my-3 mx-3">
-            <h1 className=' text-center my-3' style={{ margin: '30px 0px' }}>NewsMonkey - Top Headlines</h1>
+            <h1 className=' text-center my-3' style={{ margin: '30px 0px' }}>NewsMonkey - Top {this.capitalize(this.props.category)} Headlines</h1>
             {this.state.loading && <Spinner />}
 
             <div className="row">
