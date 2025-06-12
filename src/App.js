@@ -15,7 +15,7 @@ import {
 export default class App extends Component {
   pageSize = 10
   api = process.env.REACT_APP_NEWS_KEY
-  // api = '05fd7748f49b470586c98325578ce0f6'
+  
   state={
     progess : 0
   }
