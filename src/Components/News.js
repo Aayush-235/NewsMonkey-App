@@ -159,32 +159,32 @@ export class News extends Component {
     // console.log("Second this component render(run) in DOM (Screen)")
     return (
       <>
-
-        <h1 className=' text-center my-3' style={{ margin: '30px 0px' }}>NewsMonkey - Top {this.capitalize(this.props.category)} Headlines</h1>
-        {this.state.loading && <Spinner />}
-        <InfiniteScroll
-          dataLength={this.state.articles.length}
-          next={this.fetchMoreData}
-          hasMore={this.state.articles.length < this.state.totalResults}
-          loader={this.state.loading && <Spinner />}>
-          <div className="container">
-            <div className="row">
-              {
-                this.state.articles && this.state.articles.map((element) => {
-                  return <div className="col-md-4" key={element.url}>
-                    <NewsItem title={element.title ? element.title : ""} description={element.description ? element.description : ""} imageURL={element.urlToImage} newsURL={element.url} author={element.author} date={element.publishedAt} Source={element.source.name} />
-                  </div>
-                })
-              }
-              {/* <div className="container d-flex justify-content-between">
+        
+            <h1 className=' text-center my-3' style={{ margin: '30px 0px' }}>NewsMonkey - Top {this.capitalize(this.props.category)} Headlines</h1>
+            {this.state.loading && <Spinner />}
+            <InfiniteScroll
+              dataLength={this.state.articles.length}
+              next={this.fetchMoreData}
+              hasMore={this.state.articles.length < this.state.totalResults}
+              loader={this.state.loading && <Spinner />}>
+              <div className="container">
+              <div className="row">
+                {
+                  this.state.articles && this.state.articles.map((element) => {
+                    return <div className="col-md-4" key={element.url}>
+                      <NewsItem title={element.title ? element.title : ""} description={element.description ? element.description : ""} imageURL={element.urlToImage} newsURL={element.url} author={element.author} date={element.publishedAt} Source={element.source.name} />
+                    </div>
+                  })
+                }
+                {/* <div className="container d-flex justify-content-between">
                   <button type="button" disabled={this.state.page <= 1} className="btn btn-dark my-3 mx-3" onClick={this.handlePreviousClick}>&larr; Previous</button>
                   <button type="button" disabled={this.state.page + 1 > Math.ceil(this.state.totalResults / this.props.pageSize)} className="btn btn-dark my-3 mx-3" onClick={this.handleNextClick}>Next &rarr;</button>
                 </div> */}
 
-            </div>
-          </div>
-        </InfiniteScroll>
-
+              </div>
+              </div>
+            </InfiniteScroll>
+          
 
       </>
     )
