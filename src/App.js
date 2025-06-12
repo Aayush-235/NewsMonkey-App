@@ -10,6 +10,8 @@ import {
   Route,
 } from "react-router-dom";
 
+// https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/
+
 export default class App extends Component {
  pageSize = 10
   render() {
