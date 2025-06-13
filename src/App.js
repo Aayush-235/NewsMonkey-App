@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 import './App.css';
-import React, { Component } from 'react'
+import React, {useState} from 'react'
 import Navbar from './Components/Navbar';
 import News from './Components/News';
 import LoadingBar from "react-top-loading-bar";
@@ -12,17 +12,16 @@ import {
 
 // https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/
 
-export default class App extends Component {
-  pageSize = 10
-  api = process.env.REACT_APP_NEWS_KEY
+const App =() =>{
+  let pageSize =10
+  let api =process.env.REACT_APP_NEWS_KEY
   
-  state={
-    progess : 0
+  const [progress, setprogress] =useState(0)
+ 
+  const setProgress=(progess)=>{
+    setprogress(progess)
   }
-  setProgress=(progess)=>{
-    this.setState({progess: progess})
-  }
-  render() {
+  
     return (
       <>
         <Router>
@@ -30,18 +29,18 @@ export default class App extends Component {
           <LoadingBar
           height={3}
             color="#f11946"
-            progress={this.state.progess}
+            progress={progress}
             // onLoaderFinished={() => setProgress(0)}
           />
           <Routes>
 
-            <Route exact path='/' element={<News api={this.api} setProgress={this.setProgress} key="general" pageSize={this.pageSize} country="us" category="general" />} />
-            <Route exact path='/business' element={<News api={this.api} setProgress={this.setProgress} key="business" pageSize={this.pageSize} country="us" category="business" />} />
-            <Route exact path='/sports' element={<News api={this.api} setProgress={this.setProgress} key="sports" pageSize={this.pageSize} country="us" category="sports" />} />
-            <Route exact path='/health' element={<News api={this.api} setProgress={this.setProgress} key="health" pageSize={this.pageSize} country="us" category="health" />} />
-            <Route exact path='/entertainment' element={<News api={this.api} setProgress={this.setProgress} key="entertainment" pageSize={this.pageSize} country="us" category="entertainment" />} />
-            <Route exact path='/science' element={<News api={this.api} setProgress={this.setProgress} key="science" pageSize={this.pageSize} country="us" category="science" />} />
-            <Route exact path='/technology' element={<News api={this.api} setProgress={this.setProgress} key="technology" pageSize={this.pageSize} country="us" category="technology" />} />
+            <Route exact path='/' element={<News api={api} setProgress={setProgress} key="general" pageSize={pageSize} country="us" category="general" />} />
+            <Route exact path='/business' element={<News api={api} setProgress={setProgress} key="business" pageSize={pageSize} country="us" category="business" />} />
+            <Route exact path='/sports' element={<News api={api} setProgress={setProgress} key="sports" pageSize={pageSize} country="us" category="sports" />} />
+            <Route exact path='/health' element={<News api={api} setProgress={setProgress} key="health" pageSize={pageSize} country="us" category="health" />} />
+            <Route exact path='/entertainment' element={<News api={api} setProgress={setProgress} key="entertainment" pageSize={pageSize} country="us" category="entertainment" />} />
+            <Route exact path='/science' element={<News api={api} setProgress={setProgress} key="science" pageSize={pageSize} country="us" category="science" />} />
+            <Route exact path='/technology' element={<News api={api} setProgress={setProgress} key="technology" pageSize={pageSize} country="us" category="technology" />} />
 
           </Routes>
         </Router>
@@ -51,5 +50,7 @@ export default class App extends Component {
       </>
 
     )
-  }
+  
 }
+
+export default App
