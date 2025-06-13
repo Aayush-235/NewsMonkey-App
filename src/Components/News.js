@@ -48,12 +48,12 @@ const News = (props) => {
     setPage(2)
 
   }
-
+  
 
   useEffect(() => {
-
+    
     updateNews()
-
+    // eslint-disable-next-line
   }, [])
 
 
@@ -73,32 +73,32 @@ const News = (props) => {
 
     if (loading || articles.length >= totalResults) return;
 
+    
 
+      const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.api}&page=${page}&pageSize=${props.pageSize}`;
 
-    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.api}&page=${page}&pageSize=${props.pageSize}`;
+      setLoading(true)
 
-    setLoading(true)
+      let data = await fetch(url);
+      let parsedData = await data.json();
 
-    let data = await fetch(url);
-    let parsedData = await data.json();
+      console.log(parsedData)
+      console.log(page)
 
-    console.log(parsedData)
-    console.log(page)
-
-    setarticles(articles.concat(parsedData.articles))
-    setLoading(false)
-    setTotalResults(parsedData.totalResults)
-    setPage(page + 1)
-
+      setarticles(articles.concat(parsedData.articles))
+      setLoading(false)
+      setTotalResults(parsedData.totalResults)
+      setPage(page + 1)
+      
   };
 
 
-
+                          
   // console.log("Second this component render(run) in DOM (Screen)")
   return (
     <>
 
-      <h1 className=' text-center my-3' style={{ margin: '30px 0px' }}>NewsMonkey - Top {capitalize(props.category)} Headlines</h1>
+      <h1 className=' text-center my-3' style={{ margin: '30px 0px', paddingTop : '56px', paddingBottom : '3px'}}>NewsMonkey - Top {capitalize(props.category)} Headlines</h1>
       {loading && <Spinner />}
       <InfiniteScroll
         dataLength={articles.length}
